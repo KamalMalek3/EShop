@@ -28,10 +28,11 @@ app.use(express.static(path.join(Webpath)));
 
 // Import routes
 const indexRoutes = require('./routes/index');
-const accountRoutes = require('./routes/account');
+const { router: accountRoutes } = require('./routes/account');
 const cartRoutes = require('./routes/cart');
 const checkoutRoutes = require('./routes/checkout');
 const productRoutes = require('./routes/products');
+const dashboardRoutes = require('./routes/dashboard');
 
 // Use routes
 app.use(indexRoutes);
@@ -39,6 +40,7 @@ app.use(accountRoutes);
 app.use(cartRoutes);
 app.use(checkoutRoutes);
 app.use(productRoutes);
+app.use(dashboardRoutes);
 
 // Handle 404
 app.get("*", (req, resp) => {

@@ -30,8 +30,12 @@ const sessionState = {
 };
 
 router.post('/signin', (req, resp) => {
-  const username = req.body.loginname.toLowerCase();
-  const password = req.body.loginpassword;
+  const username = req.body.loginname.toLowerCase().trim();
+  const password = req.body.loginpassword.trim();
+
+  if (!username || !password) {
+    return resp.render("alert", { message: "Username and password are required" });
+  }
 
   con.query('SELECT * FROM customers WHERE username = ? AND password = ?', [username, password], (err, result) => {
     if (err) {
@@ -47,10 +51,13 @@ router.post('/signin', (req, resp) => {
 });
 
 router.post('/register', (req, resp) => {
-  const username = req.body.registername.toLowerCase();
-  const email = req.body.registeremail;
-  const password = req.body.registerpassword;
+  const username = req.body.registername.toLowerCase().trim();
+  const email = req.body.registeremail.trim();
+  const password = req.body.registerpassword.trim();
 
+  if (!username || !email || !password) {
+    return resp.render("alert", { message: "Username, email and password are required to register" });
+  }
   con.query('INSERT INTO customers (Username, email, Password) VALUES (?, ?, ?)', [username, email, password], (err) => {
     if (err) {
       resp.render("alert", { message: "Could not Register, username maybe taken or other error has occurred" });
@@ -80,8 +87,15 @@ router.get("/forgot",(req,resp)=>{
 )
 
 router.post("/Changepass",(req,resp)=>{
-  var user=req.body.username;
-  var pass=req.body.newPassword;
+  var user=req.body.username.toLowerCase().trim();
+  var pass=req.body.newPassword.trim();
+
+  if(!user||!pass)
+  {
+    resp.render("alert",{message:"Username and Password are required"});
+    return;
+  }
+
   if(user==="admin")
   {
     resp.render("alert",{message:"Cannot change admin password"});

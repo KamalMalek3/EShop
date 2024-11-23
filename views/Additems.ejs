@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product add</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"],
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #121212;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        button[type="submit"]:hover {
+            background-color: #d6b02e;
+        }
+        .btn
+        {
+            background-color: #121212;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover
+        {
+            background-color: #d6b02e;
+        }
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    caption {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/submit" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <h3>New product</h3>
+        <label for="imageUpload">Image Upload (JPG only):</label><br>
+        <input type="file" id="imageUpload" name="imageUpload" accept=".jpg"><br><br>
+
+        <label for="code">Product Code :</label><br>
+        <input type="number" id="code" name="code" min="1" step="1"><br><br>
+
+        <label for="Description">Description: </label><br>
+        <input type="text" id="Desc" name="Desc"><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" min="0.01" step="0.01"><br><br>
+
+        <label for="quantity">Quantity :</label><br>
+        <input type="number" id="quantity" name="quantity" min="1" step="1"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <form method="get" action="/edit">
+        <label for="code">Edit Product Code:</label><br>
+        <input type="number" id="code" name="code" min="1" step="1"><br><br>
+        <button type="submit">Edit</button>
+    </form>
+    <br>
+    <form method="get" action="/delete">
+        <label for="code">Delete Product Code:</label><br>
+        <input type="number" id="code" name="code" min="1" step="1"><br><br>
+        <button type="submit">Delete</button>
+    </form>
+    <br>
+    <a href="/home"><button class="btn">Exit -></button></a>
+    <br>
+    <h1>CheckOuts !</h1>
+    <table border="1">
+        <caption>Checkout Items</caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Code</th>
+                <th>Quantity</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (var i = 0; i < rows.length; i++) { %>
+                <tr>
+                    <td><%= rows[i].ID %></td>
+                    <td><%= rows[i].username %></td>
+                    <td><%= rows[i].Code %></td>
+                    <td><%= rows[i].qty %></td>
+                    <% var dateSplit = String(rows[i].Date || '').split('00:00:00'); %>
+                    <td><%= dateSplit.length > 0 ? dateSplit[0] : '' %></td>
+                    <td><%= rows[i].time %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <script>
+        function validateForm() {
+            var imageUpload = document.getElementById("imageUpload").value;
+            var code = document.getElementById("code").value;
+            var price = document.getElementById("price").value;
+            var quantity = document.getElementById("quantity").value;
+
+            if (!imageUpload) {
+                alert("Please upload an image (JPG only).");
+                return false;
+            }
+            if (isNaN(code) || isNaN(price) || isNaN(quantity) || code <= 0 || price <= 0 || quantity <= 0) {
+                alert("Please enter valid numeric values for code, price, and quantity.");
+                return false;
+            }
+            return true; // All fields are valid
+        }
+    </script>
+</body>
+</html>

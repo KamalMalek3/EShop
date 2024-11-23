@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product add</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"],
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #121212;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        button[type="submit"]:hover {
+            background-color: #d6b02e;
+        }
+        .btn
+        {
+            background-color: #121212;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover
+        {
+            background-color: #d6b02e;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/edit1" enctype="multipart/form-data">
+        <h3>New product</h3>
+        <label for="imageUpload">Image Upload (JPG only):</label><br>
+        <input type="file" id="imageUpload" name="imageUpload" accept=".jpg"><br><br>
+
+        <label for="code">Product Code :</label><br>
+        <input type="number" id="code" name="code" min="1" step="1" value="<%=item.code%>" readonly><br><br>
+
+        <label for="Description">Description: </label><br>
+        <input type="text" id="Desc" name="Desc" value="<%=item.Desc%>"><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" min="1" step="1" value="<%=item.Price%>" ><br><br>
+
+        <label for="quantity">Quantity :</label><br>
+        <input type="number" id="quantity" name="quantity" min="1" step="1" value="<%=item.Qty%>"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/additems"><button class="btn"> <- Back </button></a>
+</body>
+</html>

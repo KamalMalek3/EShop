@@ -161,4 +161,34 @@ router.post('/edit1', upload.single('imageUpload'), (req, res) => {
 
 });
 
+router.get("/delete", (req, resp) => {
+    var code1 = req.query.code;
+    if(SignedinUsername==="admin"){
+    if (!code1) {
+        resp.status(400).send("Invalid or missing 'code' parameter.");
+        return;
+    }
+
+    con.query(
+        "DELETE FROM items WHERE Code = ?",
+        [code1],
+        (err, result) => {
+            if (err) {
+                console.error("Error deleting item:", err);
+                resp.render("alert",{message:"Could not delete item, item might be in a user's Cart"});
+            } else {
+                if (result.affectedRows === 0) {
+                  resp.render("alert",{message:"No items were delted"});
+                } else {
+                    console.log(`${result.affectedRows} Row(s) Affected`);
+                    resp.redirect('/additems');
+                }
+            }
+        }
+    );
+}else{
+  resp.render("alert",{message:"Restricted!"})
+}
+});
+
 module.exports = router;

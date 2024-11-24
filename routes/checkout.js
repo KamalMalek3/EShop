@@ -21,7 +21,7 @@ router.get('/checkout', (req, resp) => {
       if (err) {
         resp.render("alert", { message: "Could not Checkout" });
       } else {
-        resp.render('alert2', { message: "Checkout Successful. Thank you for choosing Laya_express!" });
+        resp.render('alert2', { message: "Checkout Successful. Thank you for choosing us!" });
       }
     });
   } else {

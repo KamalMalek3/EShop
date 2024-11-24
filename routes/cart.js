@@ -23,7 +23,7 @@ router.get('/cart', (req, resp) => {
 
 router.get("/addtocart", (req, resp) => {
   if (sessionState.getSignedinUsername() === "admin") {
-    resp.render("alert", { message: "Could not add to cart because you're an admin " });
+    resp.render("alert", { message: "Could not add to cart because you are an admin " });
   }
   else {
     if (sessionState.getIsSignedin()) {

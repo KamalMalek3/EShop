@@ -37,7 +37,7 @@ router.post('/signin', (req, resp) => {
     return resp.render("alert", { message: "Username and password are required" });
   }
 
-  con.query('SELECT * FROM customers WHERE username = ? AND password = ?', [username, password], (err, result) => {
+  con.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, result) => {
     if (err) {
       resp.render("alert", { message: "An error has occurred while fetching database" });
     } else if (result.length === 1) {
@@ -58,7 +58,7 @@ router.post('/register', (req, resp) => {
   if (!username || !email || !password) {
     return resp.render("alert", { message: "Username, email and password are required to register" });
   }
-  con.query('INSERT INTO customers (Username, email, Password) VALUES (?, ?, ?)', [username, email, password], (err) => {
+  con.query('INSERT INTO users (Username, email, Password) VALUES (?, ?, ?)', [username, email, password], (err) => {
     if (err) {
       resp.render("alert", { message: "Could not Register, username maybe taken or other error has occurred" });
     } else {
@@ -82,7 +82,7 @@ router.get('/signout', (req, resp) => {
 });
 
 router.get("/forgot",(req,resp)=>{
-  resp.sendFile(`${Webpath}/NewPassword.html`);
+  resp.sendFile(path.join(__dirname, "../shopweb/NewPassword.html"));
 }
 )
 
@@ -102,11 +102,11 @@ router.post("/Changepass",(req,resp)=>{
     return;
   }
   con.query(
-    "UPDATE customers SET Password = ? WHERE Username=?",
+    "UPDATE users SET Password = ? WHERE Username=?",
     [pass,user],
     (err, result) => {
         if (err || result.affectedRows==0) {
-          resp.render("alert",{message:"Could not Change Password"});
+          resp.render("alert",{message:"Could not Change Password or Username does not exist"});
         } else{
             console.log(""+result.affectedRows+" Row Affected");
             resp.redirect('/account')
